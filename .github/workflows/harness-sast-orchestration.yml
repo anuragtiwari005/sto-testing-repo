@@ -42,52 +42,8 @@ jobs:
           ref: master
           path: NodeGoat
 
-      - name: Run Harness SAST sast scan with default target
-        id: sto-scan-sast-default
-        uses: ./.github/actions/harness-sto
-        with:
-          harness-token: ${{ secrets.HARNESS_TOKEN }}
-          harness-org-id: ${{ inputs.harness-org-id }}
-          harness-project-id: ${{ inputs.harness-project-id }}
-          harness-domain: ${{ inputs.harness-domain }}
-
-          scanner: harnesssast
-          scan-mode: orchestration
-          scan-config: sast
-          target-type: repository
-          workspace: NodeGoat
-          target-name: "anuragtiwari005/NodeGoat"
-          target-variant: "master"
-          docker-image-tag: "dev"
-          log-level: ${{ inputs.log-level }}
-          output-file: scan-output-sast-default.env
-          show-summary: 'true'
-
-      - name: Run Harness SAST sast scan with named target
-        id: sto-scan-sast
-        if: always()
-        uses: ./.github/actions/harness-sto
-        with:
-          harness-token: ${{ secrets.HARNESS_TOKEN }}
-          harness-org-id: ${{ inputs.harness-org-id }}
-          harness-project-id: ${{ inputs.harness-project-id }}
-          harness-domain: ${{ inputs.harness-domain }}
-
-          scanner: harnesssast
-          scan-mode: orchestration
-          scan-config: sast
-          target-type: repository
-          workspace: NodeGoat
-          target-name: "shreyansh/harnesssastsast"
-          target-variant: "main"
-          docker-image-tag: "dev"
-          log-level: ${{ inputs.log-level }}
-          output-file: scan-output-sast.env
-          show-summary: 'true'
-
       - name: Run Harness SAST sast_sca scan with default target
         id: sto-scan-sast-sca-default
-        if: always()
         uses: ./.github/actions/harness-sto
         with:
           harness-token: ${{ secrets.HARNESS_TOKEN }}
@@ -177,28 +133,6 @@ jobs:
         if: always()
         shell: bash
         run: |
-          echo "===== STO Scan Output Variables (sast default) ====="
-          echo "Scan ID: ${{ steps.sto-scan-sast-default.outputs.scan-id }}"
-          echo "Status: ${{ steps.sto-scan-sast-default.outputs.status }}"
-          echo "Total Issues: ${{ steps.sto-scan-sast-default.outputs.total-issues }}"
-          echo "Critical: ${{ steps.sto-scan-sast-default.outputs.critical }}"
-          echo "High: ${{ steps.sto-scan-sast-default.outputs.high }}"
-          echo "Medium: ${{ steps.sto-scan-sast-default.outputs.medium }}"
-          echo "Low: ${{ steps.sto-scan-sast-default.outputs.low }}"
-          echo "Info: ${{ steps.sto-scan-sast-default.outputs.info }}"
-          echo "Output File Path: ${{ steps.sto-scan-sast-default.outputs.output-file-path }}"
-
-          echo "===== STO Scan Output Variables (sast named) ====="
-          echo "Scan ID: ${{ steps.sto-scan-sast.outputs.scan-id }}"
-          echo "Status: ${{ steps.sto-scan-sast.outputs.status }}"
-          echo "Total Issues: ${{ steps.sto-scan-sast.outputs.total-issues }}"
-          echo "Critical: ${{ steps.sto-scan-sast.outputs.critical }}"
-          echo "High: ${{ steps.sto-scan-sast.outputs.high }}"
-          echo "Medium: ${{ steps.sto-scan-sast.outputs.medium }}"
-          echo "Low: ${{ steps.sto-scan-sast.outputs.low }}"
-          echo "Info: ${{ steps.sto-scan-sast.outputs.info }}"
-          echo "Output File Path: ${{ steps.sto-scan-sast.outputs.output-file-path }}"
-
           echo "===== STO Scan Output Variables (sast_sca default) ====="
           echo "Scan ID: ${{ steps.sto-scan-sast-sca-default.outputs.scan-id }}"
           echo "Status: ${{ steps.sto-scan-sast-sca-default.outputs.status }}"
@@ -242,22 +176,6 @@ jobs:
           echo "Low: ${{ steps.sto-scan-sca.outputs.low }}"
           echo "Info: ${{ steps.sto-scan-sca.outputs.info }}"
           echo "Output File Path: ${{ steps.sto-scan-sca.outputs.output-file-path }}"
-
-      - name: Archive scan output (sast default)
-        if: always() && steps.sto-scan-sast-default.outputs.output-file-path != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: sto-scan-results-sast-default
-          path: ${{ steps.sto-scan-sast-default.outputs.output-file-path }}
-          retention-days: 1
-
-      - name: Archive scan output (sast named)
-        if: always() && steps.sto-scan-sast.outputs.output-file-path != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: sto-scan-results-sast
-          path: ${{ steps.sto-scan-sast.outputs.output-file-path }}
-          retention-days: 1
 
       - name: Archive scan output (sast_sca default)
         if: always() && steps.sto-scan-sast-sca-default.outputs.output-file-path != ''
