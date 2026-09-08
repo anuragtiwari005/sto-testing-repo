@@ -35,6 +35,13 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Checkout NodeGoat
+        uses: actions/checkout@v4
+        with:
+          repository: anuragtiwari005/NodeGoat
+          ref: master
+          path: NodeGoat
+
       - name: Run Harness SAST sast scan with default target
         id: sto-scan-sast-default
         uses: ./.github/actions/harness-sto
@@ -48,7 +55,9 @@ jobs:
           scan-mode: orchestration
           scan-config: sast
           target-type: repository
-          workspace: .
+          workspace: NodeGoat
+          target-name: "anuragtiwari005/NodeGoat"
+          target-variant: "master"
           docker-image-tag: "dev"
           log-level: ${{ inputs.log-level }}
           output-file: scan-output-sast-default.env
@@ -68,7 +77,7 @@ jobs:
           scan-mode: orchestration
           scan-config: sast
           target-type: repository
-          workspace: .
+          workspace: NodeGoat
           target-name: "shreyansh/harnesssastsast"
           target-variant: "main"
           docker-image-tag: "dev"
@@ -90,7 +99,9 @@ jobs:
           scan-mode: orchestration
           scan-config: sast_sca
           target-type: repository
-          workspace: .
+          workspace: NodeGoat
+          target-name: "anuragtiwari005/NodeGoat"
+          target-variant: "master"
           docker-image-tag: "dev"
           log-level: ${{ inputs.log-level }}
           output-file: scan-output-sast-sca-default.env
@@ -110,7 +121,7 @@ jobs:
           scan-mode: orchestration
           scan-config: sast_sca
           target-type: repository
-          workspace: .
+          workspace: NodeGoat
           target-name: "shreyansh/harnesssastsastsca"
           target-variant: "main"
           docker-image-tag: "dev"
@@ -132,7 +143,9 @@ jobs:
           scan-mode: orchestration
           scan-config: sca
           target-type: repository
-          workspace: .
+          workspace: NodeGoat
+          target-name: "anuragtiwari005/NodeGoat"
+          target-variant: "master"
           docker-image-tag: "dev"
           log-level: ${{ inputs.log-level }}
           output-file: scan-output-sca-default.env
@@ -152,7 +165,7 @@ jobs:
           scan-mode: orchestration
           scan-config: sca
           target-type: repository
-          workspace: .
+          workspace: NodeGoat
           target-name: "shreyansh/harnesssastsca"
           target-variant: "main"
           docker-image-tag: "dev"
