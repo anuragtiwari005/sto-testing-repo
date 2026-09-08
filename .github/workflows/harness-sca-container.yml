@@ -16,6 +16,16 @@ on:
         required: false
         type: string
         default: 'https://app.harness.io'
+      log-level:
+        description: 'STO plugin log level. DEBUG also enables sl --verbose.'
+        required: false
+        type: choice
+        options:
+          - DEBUG
+          - INFO
+          - WARN
+          - ERROR
+        default: DEBUG
 
 jobs:
   security-scan:
@@ -44,6 +54,7 @@ jobs:
           image-access-id: ${{ secrets.PRIVATE_DOCKER_ACCESS_ID }}
           image-access-token: ${{ secrets.PRIVATE_DOCKER_ACCESS_TOKEN }}
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-default.env
           show-summary: 'true'
 
@@ -69,6 +80,7 @@ jobs:
           target-name: "shreyansh/harnessscacontainer"
           target-variant: "latest"
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-container.env
           show-summary: 'true'
 
@@ -91,6 +103,7 @@ jobs:
           image-domain: "docker.io"
           image-type: docker_v2
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-dockerhub-default.env
           show-summary: 'true'
 
@@ -115,6 +128,7 @@ jobs:
           target-name: "shreyansh/harnessscapublicdockerhub"
           target-variant: "latest"
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-dockerhub.env
           show-summary: 'true'
 
@@ -142,6 +156,7 @@ jobs:
           image-tag: ${{ github.sha }}
           image-type: local_image
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-local-default.env
           show-summary: 'true'
 
@@ -165,6 +180,7 @@ jobs:
           target-name: "shreyansh/harnessscalocalimage"
           target-variant: ${{ github.sha }}
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-local.env
           show-summary: 'true'
 

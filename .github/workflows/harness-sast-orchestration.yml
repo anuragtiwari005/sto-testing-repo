@@ -16,6 +16,16 @@ on:
         required: false
         type: string
         default: 'https://app.harness.io'
+      log-level:
+        description: 'STO plugin log level. DEBUG also enables sl --verbose.'
+        required: false
+        type: choice
+        options:
+          - DEBUG
+          - INFO
+          - WARN
+          - ERROR
+        default: DEBUG
 
 jobs:
   security-scan:
@@ -40,6 +50,7 @@ jobs:
           target-type: repository
           workspace: .
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-sast-default.env
           show-summary: 'true'
 
@@ -61,6 +72,7 @@ jobs:
           target-name: "shreyansh/harnesssastsast"
           target-variant: "main"
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-sast.env
           show-summary: 'true'
 
@@ -80,6 +92,7 @@ jobs:
           target-type: repository
           workspace: .
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-sast-sca-default.env
           show-summary: 'true'
 
@@ -101,6 +114,7 @@ jobs:
           target-name: "shreyansh/harnesssastsastsca"
           target-variant: "main"
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-sast-sca.env
           show-summary: 'true'
 
@@ -120,6 +134,7 @@ jobs:
           target-type: repository
           workspace: .
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-sca-default.env
           show-summary: 'true'
 
@@ -141,6 +156,7 @@ jobs:
           target-name: "shreyansh/harnesssastsca"
           target-variant: "main"
           docker-image-tag: "dev"
+          log-level: ${{ inputs.log-level }}
           output-file: scan-output-sca.env
           show-summary: 'true'
 
