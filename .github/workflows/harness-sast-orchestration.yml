@@ -59,6 +59,11 @@ jobs:
           target-name: "anuragtiwari005/WebGoat"
           target-variant: "main"
           docker-image-tag: "dev"
+          docker-image-prefix: us-east1-docker.pkg.dev/sto-play/sto-private
+          image-pull-policy: always
+          registry-domain: us-east1-docker.pkg.dev
+          registry-username: oauth2accesstoken
+          registry-token: ${{ secrets.GCP_ACCESS_TOKEN }}
           log-level: ${{ inputs.log-level }}
           output-file: scan-output-sast-sca-default.env
           show-summary: 'true'
@@ -81,6 +86,11 @@ jobs:
           target-name: "shreyansh/harnesssastsastsca"
           target-variant: "main"
           docker-image-tag: "dev"
+          docker-image-prefix: us-east1-docker.pkg.dev/sto-play/sto-private
+          image-pull-policy: always
+          registry-domain: us-east1-docker.pkg.dev
+          registry-username: oauth2accesstoken
+          registry-token: ${{ secrets.GCP_ACCESS_TOKEN }}
           log-level: ${{ inputs.log-level }}
           output-file: scan-output-sast-sca.env
           show-summary: 'true'
@@ -103,6 +113,11 @@ jobs:
           target-name: "anuragtiwari005/WebGoat"
           target-variant: "main"
           docker-image-tag: "dev"
+          docker-image-prefix: us-east1-docker.pkg.dev/sto-play/sto-private
+          image-pull-policy: always
+          registry-domain: us-east1-docker.pkg.dev
+          registry-username: oauth2accesstoken
+          registry-token: ${{ secrets.GCP_ACCESS_TOKEN }}
           log-level: ${{ inputs.log-level }}
           output-file: scan-output-sca-default.env
           show-summary: 'true'
@@ -125,6 +140,11 @@ jobs:
           target-name: "shreyansh/harnesssastsca"
           target-variant: "main"
           docker-image-tag: "dev"
+          docker-image-prefix: us-east1-docker.pkg.dev/sto-play/sto-private
+          image-pull-policy: always
+          registry-domain: us-east1-docker.pkg.dev
+          registry-username: oauth2accesstoken
+          registry-token: ${{ secrets.GCP_ACCESS_TOKEN }}
           log-level: ${{ inputs.log-level }}
           output-file: scan-output-sca.env
           show-summary: 'true'

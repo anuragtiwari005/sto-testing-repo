@@ -359,6 +359,15 @@ inputs:
     required: false
     default: 'latest'
 
+  docker-image-prefix:
+    description: |
+      Registry prefix in front of harness/<scanner>-job-runner.
+      Empty (default) = Docker Hub (harness/shiftleft-job-runner:tag).
+      GAR example: us-east1-docker.pkg.dev/sto-play/sto-private
+      → us-east1-docker.pkg.dev/sto-play/sto-private/harness/shiftleft-job-runner:tag
+    required: false
+    default: ''
+
   # ============================================================================
   # STEP RUNTIME CONTROLS (STO-12759) — parity with Harness CI step settings.
   # All are opt-in; defaults keep the previous docker run behavior.
@@ -678,7 +687,13 @@ runs:
             ;;
         esac
 
-        SCANNER_IMAGE="harness/${IMAGE_NAME}:${{ inputs.docker-image-tag }}"
+        IMAGE_PREFIX="${{ inputs.docker-image-prefix }}"
+        IMAGE_PREFIX="${IMAGE_PREFIX%/}"
+        if [ -n "$IMAGE_PREFIX" ]; then
+          SCANNER_IMAGE="${IMAGE_PREFIX}/harness/${IMAGE_NAME}:${{ inputs.docker-image-tag }}"
+        else
+          SCANNER_IMAGE="harness/${IMAGE_NAME}:${{ inputs.docker-image-tag }}"
+        fi
         echo "scanner-image=$SCANNER_IMAGE" >> $GITHUB_OUTPUT
         echo "product-scanner=$PRODUCT_SCANNER" >> $GITHUB_OUTPUT
         echo "target-type=$TARGET_TYPE" >> $GITHUB_OUTPUT
